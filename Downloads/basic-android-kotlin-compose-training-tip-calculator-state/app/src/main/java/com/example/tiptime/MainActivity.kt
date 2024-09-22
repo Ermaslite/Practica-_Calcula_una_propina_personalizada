@@ -54,6 +54,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Switch
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.annotation.DrawableRes
+import androidx.compose.material3.Icon
+import androidx.compose.ui.res.painterResource
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -81,8 +87,7 @@ fun TipTimeLayout() {
 
     Column(
         modifier = Modifier
-            .statusBarsPadding()
-            .padding(horizontal = 40.dp)
+            .padding(40.dp)
             .verticalScroll(rememberScrollState())
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -102,9 +107,10 @@ fun TipTimeLayout() {
             ),
             value = amountInput,
             onValueChanged = { amountInput = it },
+            leadingIcon = R.drawable.money,
             modifier = Modifier
                 .padding(bottom = 32.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
         EditNumberField(
             label = R.string.how_was_the_service,
@@ -114,10 +120,12 @@ fun TipTimeLayout() {
             ),
             value = tipInput,
             onValueChanged = { tipInput = it },
+            leadingIcon = R.drawable.percent,
             modifier = Modifier
                 .padding(bottom = 32.dp)
-                .fillMaxWidth()
-        )
+                .fillMaxWidth(),
+
+            )
         RoundTheTipRow(
             roundUp = roundUp,
             onRoundUpChanged = { newValue -> roundUp = newValue },
@@ -137,10 +145,12 @@ fun EditNumberField(
     keyboardOptions: KeyboardOptions,
     value: String,
     onValueChanged: (String) -> Unit,
+    @DrawableRes leadingIcon: Int,
     modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
+        leadingIcon = { Icon(painter = painterResource(id = leadingIcon), contentDescription = null) },
         singleLine = true,
         modifier = modifier,
         onValueChange = onValueChanged,
